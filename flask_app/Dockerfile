@@ -8,10 +8,6 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-#RUN mkdir -p /app/models/ \
-#  && wget "https://drive.google.com/u/1/uc?#export=download&confirm=b8ro&id=1NYBT6zcm5Eux2rCRb2qsU5dScSIWZzn1" -O /app/models/resnet50_1.h5
-
-
 # copy every content from the local file to the image
 COPY . /app
 
