@@ -57,7 +57,7 @@ def predict(img_path):
     result["data"]["probabilities"] = probas
     result["status"] = "OK"
     
-    return str(result).replace("'", '"')
+    return result
 
 
 # In[55]:
@@ -73,7 +73,7 @@ async def predict_api(file: UploadFile = File(...)):
         return "Image must be jpg or png format!"
     #image = read_imagefile(await file.read())
     prediction = predict(await file.read())
-    return json.loads(prediction)
+    return json.dumps(prediction)
 
 
 @app.get("/")
