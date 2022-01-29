@@ -1,7 +1,7 @@
 # start by pulling the python image
 FROM python:3.8.8
 
-# copy the requirements file into the image
+# copy the requirements file into the image (avoids being invalidated by the cache for every build)
 COPY ./requirements.txt /app/requirements.txt
 
 # switch working directory
@@ -9,26 +9,9 @@ WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-WORKDIR /keras-retinanet
+#RUN mkdir -p /app/models/ \
+#  && wget "https://drive.google.com/u/1/uc?#export=download&confirm=b8ro&id=1NYBT6zcm5Eux2rCRb2qsU5dScSIWZzn1" -O /app/models/resnet50_1.h5
 
-RUN git clone https://github.com/fizyr/keras-retinanet.git .
-
-#RUN git checkout 42068ef9e406602d92a1afe2ee7d470f7e9860df
-#RUN python setup.py install
-
-# Install retinaNet
-RUN python setup.py build_ext --inplace
-RUN pip install .
-
-WORKDIR /app
-
-#RUN export PATH=/user/local/bin:$PATH 
-
-RUN apt-get update
-RUN apt-get install tesseract-ocr -y 
-RUN apt-get install tesseract-ocr-eng -y
-
-RUN pip install pytesseract
 
 # copy every content from the local file to the image
 COPY . /app
@@ -36,4 +19,4 @@ COPY . /app
 # configure the container to run in an executed manner
 ENTRYPOINT [ "python" ]
 
-CMD ["app.py" ]
+CMD ["main.py" ]
