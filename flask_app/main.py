@@ -66,7 +66,7 @@ def predict(img_path):
 app = FastAPI()
 
 
-@app.post("/predict/image")
+@app.post("/prediction")
 async def predict_api(file: UploadFile = File(...)):
     extension = file.filename.split(".")[-1] in ("jpg", "jpeg", "png")
     if not extension:
