@@ -47,14 +47,15 @@ def predict(img_path):
     pil_im = pil_image(img_path)
     org_img = img_to_array(pil_im)
     predictions = model.predict(np.asarray(org_img, dtype="float").reshape([1, 105, 105, 1]) / 255.0)
-    probas = {}
+    probas = []
     keys = ["Amatic", "Arial", "Calibri", "Cambria", "Cambriab", "Caveat", "Comfortaa", "ComicSansMS", "Consolas", "CourierNew", "DroidSans", "DroidSerif", "FreeSans", "Lora", "Merriweather", "MonotypeCorsiva", "Montserrat", "Nunito", "Roboto", "TimesNewRoman", "Ubuntu", "UbuntuMono", "Unicode"]
     for key, value in zip(keys, predictions[0]):
-        probas[key] = str(value)
+        probas.append({"font":key, "probability":value})
     
     result = {}
-    result["data"] = probas
-    result["status"] = "0"
+    result["data"] = {}
+    result["data"]["probabilities"] = probas
+    result["status"] = "OK"
     
     return str(result).replace("'", '"')
 
